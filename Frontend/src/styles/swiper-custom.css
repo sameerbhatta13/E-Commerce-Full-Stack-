@@ -1,0 +1,87 @@
+/* Swiper Container Styling */
+.swiper-container {
+    position: relative;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1200px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Slide Wrapper Styling */
+.slide-wrapper {
+    position: relative;
+    text-align: center;
+}
+
+/* Slide Caption Styling */
+.slide-caption {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    opacity: 0.8;
+}
+
+/* Custom Navigation Buttons */
+.custom-swiper-button-next,
+.custom-swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.custom-swiper-button-next {
+    right: 10px;
+}
+
+.custom-swiper-button-prev {
+    left: 10px;
+}
+
+/* Hover Effects for Slides */
+.swiper-slide img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.swiper-slide:hover img {
+    transform: scale(1.1);
+}
+
+/* Pagination Customization */
+.swiper-pagination .swiper-pagination-bullet {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px solid white;
+    width: 12px;
+    height: 12px;
+    opacity: 1;
+}
+
+.swiper-pagination .swiper-pagination-bullet-active {
+    background-color: white;
+}
+
+/* Product Section */
+.product-section {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.product-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
