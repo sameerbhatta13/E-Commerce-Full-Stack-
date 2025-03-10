@@ -2,11 +2,26 @@ import React, { useState } from 'react';
 import { APP_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
 import { useGetProductQuery } from '../redux/Api/ProductApi';
+import { usePostOrderMutation } from '../redux/Api/OrderApi';
 
 const ProductList = () => {
     const navigate = useNavigate();
-    const { data: ProductGet, isLoading } = useGetProductQuery();
+    const { data: ProductGet, isLoading, refetch } = useGetProductQuery();
     const products = ProductGet?.data || [];
+
+
+
+    const [udpateOrder, { isError }] = usePostOrderMutation()
+
+    const handleBuyProduct = (e) => {
+        e.preventDefault()
+
+        try {
+
+        } catch (error) {
+
+        }
+    }
 
     // Pagination & Search
     const [currentPage, setCurrentPage] = useState(1);
