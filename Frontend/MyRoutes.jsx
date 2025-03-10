@@ -18,6 +18,7 @@ import Protected from './src/components/Protected'
 import ProductList from './src/components/ProductList'
 import SignUp from './src/pages/SignUp'
 import AdminDashboard from './src/components/AdminDashboard'
+import DashboardLayout from './src/components/DashboardLayout'
 
 
 const MyRoutes = () => {
@@ -30,21 +31,26 @@ const MyRoutes = () => {
                         <Route path='/signup' element={<SignUp />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/about' element={<About />} />
-                        <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} />
+                        {/* <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} /> */}
                         <Route path='/verify' element={<Verify />} />
                         <Route path='/product/:id' element={<Protected Cmp={ViewMore} />} />
                         <Route path='/tailwind' element={<Tailwind />} />
                         <Route path='/profile' element={<Protected Cmp={Profile} />} />
-                        <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} />
-                        <Route path='/admindashboard' element={<Protected Cmp={AdminDashboard} />} />
                         <Route path='/cart' element={<Protected Cmp={Cart} />} />
                         <Route path='/updateproduct/:id' element={<UpdateProduct />} />
                         <Route path='/crud' element={<Crud />} />
                         <Route path='/addproduct' element={<AddProduct />} />
                         <Route path='/product' element={<ProductList />} />
-
-
                     </Route>
+                    <Route path='/admindashboard' element={<Protected Cmp={AdminDashboard} />} />
+                    <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} >
+
+                        <Route path='dashboardlayout' element={<DashboardLayout />} />
+                        <Route path='profile' element={<Profile />} />
+                        <Route path='product' element={<ProductList />} />
+                        <Route path='cart' element={<Cart />} />
+                    </Route>
+
                 </Routes>
             </Router >
 
