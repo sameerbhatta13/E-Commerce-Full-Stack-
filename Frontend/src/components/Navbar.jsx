@@ -38,7 +38,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="sticky top-0 bg-gray-900 shadow-md text-white p-4">
+            <nav className="sticky top-0 bg-gray-900 shadow-md text-white p-4 z-20">
                 <div className="container mx-auto flex justify-between items-center">
                     {/* Logo */}
                     <Link to="/" className="text-2xl font-bold text-indigo-400">
