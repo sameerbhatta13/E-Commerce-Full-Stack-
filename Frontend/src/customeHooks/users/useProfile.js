@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { APP_URL } from '../../config'
+import { APP_URL } from '../../../config'
 
 export const useProfile = (url) => {
     const token = localStorage.getItem('accessToken')
@@ -25,3 +25,5 @@ export const useProfile = (url) => {
 
     return [data]
 }
+
+

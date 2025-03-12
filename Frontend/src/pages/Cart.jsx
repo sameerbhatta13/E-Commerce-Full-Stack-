@@ -7,12 +7,15 @@ import { useDecreaseCartMutation, useGetCartProductQuery, useIncreaseCartMutatio
 import { jwtDecode } from 'jwt-decode'
 import { toast } from 'react-toastify'
 import { usePostOrderMutation } from '../redux/Api/OrderApi'
+import Modal from 'react-modal'
+import ShippingAddress from './ShippingAddress'
 
 const Cart = () => {
-
+    const [isModelOpen, setIsModelOpen] = useState(false)
     const { data: CartData, error, isError, refetch } = useGetCartProductQuery()
+    // console.log(CartData)
     const cartid = CartData?.[0]?._id
-    console.log("card ID", cartid)
+
 
     const [increaseCart, { isError: err }] = useIncreaseCartMutation()
 
@@ -26,14 +29,14 @@ const Cart = () => {
 
     const handlePostOrder = async (id) => {
         console.log("item id ", id)
-        const response = await postOrder(id)
-        if (response?.error) {
-            toast.error('error in processing')
-        }
-        else {
-            refetch()
-            toast.success('order is placed')
-        }
+        // const response = await postOrder(id)
+        // if (response?.error) {
+        //     toast.error('error in processing')
+        // }
+        // else {
+        //     refetch()
+        //     toast.success('order is placed')
+        // }
     }
 
 
@@ -75,7 +78,7 @@ const Cart = () => {
 
 
     const handleDecrease = async (item) => {
-        console.log('item id ', item.productId._id)
+        // console.log('item id ', item.productId._id)
         const response = await decreaseCart(item.productId._id)
         if (response?.error) {
             toast.error('something went wrong', response.error.message)
@@ -170,13 +173,24 @@ const Cart = () => {
                                 <span>Total</span>
                                 <span>Rs. {(calculateTotal() * 1.1)?.toFixed(2)}</span>
                             </div>
-                            <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" onClick={() => handlePostOrder(cartid)}>
+                            <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" onClick={() => {
+                                handlePostOrder(cartid)
+                                setIsModelOpen(true)
+                            }}>
                                 Proceed to Checkout
                             </button>
                         </div>
+
+                        <Modal isOpen={isModelOpen} onRequestClose={() => setIsModelOpen(false)}
+                            overlayClassName="fixed top-0 left-0 w-full bg-black/60 h-full"
+                            className='bg-gray-100 relative p-6 rounded-lg shadow-lg w-[300px] md:w-96 mt-16 mx-auto'>
+                            <ShippingAddress cardData={CartData} setModal={setIsModelOpen} />
+                        </Modal>
                     </div>
                 </div>
+
             </div >
+
 
 
         </>
