@@ -3,6 +3,7 @@ const ApiResponse = require('../../utils/apiResponse')
 const asyncHandler = require('../../utils/asyncHandler')
 const Cart = require('./cart.model')
 const Product = require('../Products/product.model')
+// const User = require('../Users/user.model')
 
 exports.addToCart = asyncHandler(async (req, res) => {
     const { productId, quantity } = req.body
@@ -175,5 +176,20 @@ exports.removeOneCart = asyncHandler(async (req, res) => {
     )
     res.json(cart)
 
+})
+
+exports.removeWholeCart = asyncHandler(async (req, res) => {
+    const { _id } = req.user
+
+    const user = await Cart.findOne({ userId: _id })
+    if (!user) {
+        throw new ApiError('user does not have cart items', 400)
+    }
+
+    const cart = await Cart.findByIdAndDelete(req.params.id)
+    if (!cart) {
+        throw new ApiError('cart is not found', 400)
+    }
+    return res.status(200).json(new ApiResponse('user cart is deleted successfully', 200))
 })
 

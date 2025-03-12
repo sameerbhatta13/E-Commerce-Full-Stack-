@@ -23,6 +23,9 @@ const userShema = new mongoose.Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String
+    },
     isvarified: {
         type: Boolean,
         default: false

@@ -1,6 +1,6 @@
 const express = require('express')
 const { authmiddleware } = require('../../middleware/authMiddleware')
-const { addToCart, getCartProuduct, qunantityIncrement, quantityDecrement, getCartByUser, removeOneCart } = require('./cart.controller')
+const { addToCart, getCartProuduct, qunantityIncrement, quantityDecrement, getCartByUser, removeOneCart, removeWholeCart } = require('./cart.controller')
 
 
 const router = express.Router()
@@ -11,6 +11,7 @@ router.get('/cart', authmiddleware, getCartByUser)
 router.put('/cart/increase/:productid', authmiddleware, qunantityIncrement)
 router.put('/cart/decrease/:productid', authmiddleware, quantityDecrement)
 router.put('/cart/remove/:productid', authmiddleware, removeOneCart)
+router.delete('/cart/:id', authmiddleware, removeWholeCart)
 
 
 module.exports = router

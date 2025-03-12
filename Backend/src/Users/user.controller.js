@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser')
 
 exports.postUser = asyncHandler(async (req, res) => {
     let { username, email, phone, role, password } = req.body
+    const image = req.file ? req.file.filename : null //optional field
 
     let newOTP = otpGenerator()
 
@@ -21,6 +22,7 @@ exports.postUser = asyncHandler(async (req, res) => {
         role,
         password,
         otp: newOTP,
+        image: image
     })
     const existingUser = await User.findOne({ email: user.email })
     // console.log('data', data)
@@ -148,6 +150,30 @@ exports.myData = asyncHandler(async (req, res) => {
     const data = await User.findById(_id).select('-password')
 
     return res.status(200).json(new ApiResponse('my data', data))
+
+})
+
+exports.updateUser = asyncHandler(async (req, res) => {
+    const { _id } = req.user
+
+    if (req.file) {
+        const file = req.file.filename
+        const updateUser = await User.findByIdAndUpdate({ _id: _id }, { ...req.body, image: file }, { new: true })
+
+        if (!updateUser) {
+            throw new ApiError('user is not found ', 400)
+        }
+        return res.json(new ApiResponse('user updated successfully', updateUser))
+
+    }
+    else {
+        const updateUser = await User.findByIdAndUpdate({ _id: _id }, { ...req.body }, { new: true })
+
+        if (!updateUser) {
+            throw new ApiError('user is not found ', 400)
+        }
+        return res.json(new ApiResponse('user updated successfully', updateUser))
+    }
 
 })
 
