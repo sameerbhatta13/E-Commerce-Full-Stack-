@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { APP_URL } from '../../config'
-import { allRemoveCart, decreaseQuanity, increaseQuanity, removeFromCart } from '../redux/Slice/CartRedux'
-import { useDecreaseCartMutation, useGetCartProductQuery, useIncreaseCartMutation, useRemoveOneCartMutation } from '../redux/Api/CartApi'
-import { jwtDecode } from 'jwt-decode'
+import { useDecreaseCartMutation, useGetCartProductQuery, useIncreaseCartMutation, useRemoveOneCartMutation, useRemovewholeCartMutation } from '../redux/Api/CartApi'
 import { toast } from 'react-toastify'
-import { usePostOrderMutation } from '../redux/Api/OrderApi'
 import Modal from 'react-modal'
 import ShippingAddress from './ShippingAddress'
 
 const Cart = () => {
+    const navigate = useNavigate()
     const [isModelOpen, setIsModelOpen] = useState(false)
     const { data: CartData, error, isError, refetch } = useGetCartProductQuery()
     // console.log(CartData)
     const cartid = CartData?.[0]?._id
+
 
 
     const [increaseCart, { isError: err }] = useIncreaseCartMutation()
@@ -24,8 +23,8 @@ const Cart = () => {
 
     const [removeFromCart, { }] = useRemoveOneCartMutation()
 
-    const [postOrder, { isError: ordererr, error: orderERR }] = usePostOrderMutation()
-    console.log('order error', ordererr, orderERR)
+    const [removeWholeCart, { }] = useRemovewholeCartMutation()
+
 
     const handlePostOrder = async (id) => {
         console.log("item id ", id)
@@ -37,6 +36,19 @@ const Cart = () => {
         //     refetch()
         //     toast.success('order is placed')
         // }
+    }
+    const handleRemoveWholeCart = async (e) => {
+        e?.preventDefault()
+
+        try {
+            const removeCart = await removeWholeCart()
+            // console.log("first", removeCart)
+            refetch()
+
+        } catch (error) {
+
+        }
+
     }
 
 
@@ -60,9 +72,9 @@ const Cart = () => {
     }
 
     const handleIncrease = async (item) => {
-        // console.log('ggg', item.productId._id)
+        console.log('ggg', item.productId._id)
         const response = await increaseCart(item.productId._id)
-        // console.log('response', response)
+        console.log('increase errror', response)
         if (response?.error) {
             toast.error('something went wrong')
         }
@@ -78,8 +90,9 @@ const Cart = () => {
 
 
     const handleDecrease = async (item) => {
-        // console.log('item id ', item.productId._id)
+        console.log('item id ', item.productId._id)
         const response = await decreaseCart(item.productId._id)
+        console.log("decrease errror", response)
         if (response?.error) {
             toast.error('something went wrong', response.error.message)
         }
@@ -150,41 +163,49 @@ const Cart = () => {
 
                                 )
                                     : (
-                                        <p className="text-gray-500 text-center">Your cart is empty.</p>
+                                        <p className="text-gray-500 text-center ">Your cart is empty.</p>
                                     )}
 
                             {
-                                CartData != 0 && <button className='text-red-500 hover:underline mt-2' onClick={() => dispatch(allRemoveCart())}>Remove All</button>
+                                CartData != 0 && <button className='text-red-500 hover:underline mt-2' onClick={handleRemoveWholeCart}>Remove All</button>
                             }
                         </div>
 
                         {/* Cart Summary */}
-                        <div className="bg-white p-4 rounded-lg shadow-md">
-                            <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-                            <div className="flex justify-between mb-2">
-                                <span>Subtotal</span>
-                                <span>Rs. {calculateTotal()?.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between mb-2">
-                                <span>Tax (10%)</span>
-                                <span>Rs. {(calculateTotal() * 0.1)?.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between font-semibold text-lg">
-                                <span>Total</span>
-                                <span>Rs. {(calculateTotal() * 1.1)?.toFixed(2)}</span>
-                            </div>
-                            <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" onClick={() => {
-                                handlePostOrder(cartid)
-                                setIsModelOpen(true)
-                            }}>
-                                Proceed to Checkout
-                            </button>
-                        </div>
+                        {
+                            CartData?.length > 0 ? (
+                                <div className="bg-white p-4 rounded-lg shadow-md">
+                                    <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+                                    <div className="flex justify-between mb-2">
+                                        <span>Subtotal</span>
+                                        <span>Rs. {calculateTotal()?.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between mb-2">
+                                        <span>Tax (10%)</span>
+                                        <span>Rs. {(calculateTotal() * 0.1)?.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between font-semibold text-lg">
+                                        <span>Total</span>
+                                        <span>Rs. {(calculateTotal() * 1.1)?.toFixed(2)}</span>
+                                    </div>
+                                    <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" onClick={() => {
+                                        handlePostOrder(cartid)
+                                        setIsModelOpen(true)
+                                    }}>
+                                        Proceed to Checkout
+                                    </button>
+                                </div>) : (
+                                <div>
+                                    <button onClick={() => navigate('/userdashboard/product')} className="text-black text-xl mt-2 shadow-[-7px_7px_0px_#000000] text-center border-2 p-2">Go To Product</button>
+                                </div>
+                            )
+                        }
+
 
                         <Modal isOpen={isModelOpen} onRequestClose={() => setIsModelOpen(false)}
                             overlayClassName="fixed top-0 left-0 w-full bg-black/60 h-full"
                             className='bg-gray-100 relative p-6 rounded-lg shadow-lg w-[300px] md:w-96 mt-16 mx-auto'>
-                            <ShippingAddress cardData={CartData} setModal={setIsModelOpen} />
+                            <ShippingAddress cardData={CartData} setModal={setIsModelOpen} total={(calculateTotal() * 1.1)?.toFixed(2)} refetch={refetch} />
                         </Modal>
                     </div>
                 </div>

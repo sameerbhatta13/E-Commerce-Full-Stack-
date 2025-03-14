@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useFetch } from '../customeHooks/useFetch'
 import { APP_URL } from '../../config'
 import { useLocation, useParams, Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart } from '../redux/Slice/CartRedux'
-import { parse } from 'postcss'
 import { useAddToCartMutation, useGetCartProductQuery, useRemoveOneCartMutation } from '../redux/Api/CartApi'
-import { jwtDecode } from 'jwt-decode'
 import { useGetOneProductQuery } from '../redux/Api/ProductApi'
 
 
@@ -97,8 +93,13 @@ const ViewMore = () => {
     return (
         <>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 m-4 md:m-32 justify-center text-justify z-20'>
-                <div className='bg-slate-300'>
-                    <img src={`${APP_URL}/image/${product.image}`} alt="image" className='w-full h-full p-2 object-contain hover:scale-105 transition duration-500 ease-in' />
+                <div className=''>
+                    <img
+                        src={`${APP_URL}/image/${product.image}`}
+                        alt="Product Image"
+                        className="w-full h-[400px] md:h-[500px] object-cover rounded-lg shadow-lg hover:scale-105 transition duration-500 ease-in"
+                    />
+
                 </div>
                 <div className='  align-top'>
                     <div className=' mx-6 my-14 text-wrap inline-block z-10'>

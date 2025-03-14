@@ -29,10 +29,11 @@ const Profile = () => {
     // }
 
     const [select, setSelect] = useState(null)
+    console.log(select)
 
     const handleUpdate = async () => {
         const updateProfile = await updateData(finalUpdate, select)
-        console.log(updateProfile)
+        console.log("updateProfile", updateProfile)
         window.location.reload()
     }
 
@@ -73,7 +74,7 @@ const Profile = () => {
                                         </div>
                                     )
                                 }
-                                <button className='bg-red-800 text-white my-5 rounded-lg w-fit p-2' onClick={handleUpdate}>Update</button>
+                                <button disabled={!select && !updateInfo?.username && !updateInfo?.email && !updateInfo?.phone} className='bg-red-800 text-white my-5 rounded-lg w-fit p-2' onClick={handleUpdate}>Update</button>
                             </div>
                         </div>
 

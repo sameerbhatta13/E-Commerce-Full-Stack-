@@ -1,8 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import Theme from "./theme"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md"
 import { setMode } from "../redux/Slice/ModeRedux"
 import { logout } from "../redux/Slice/AuthSlice"
@@ -35,6 +34,8 @@ const Navbar = () => {
         localStorage.setItem('darkMode', darkMode)
     }, [darkMode])
 
+    // console.log(decode)
+
 
     return (
         <>
@@ -50,9 +51,12 @@ const Navbar = () => {
                         <NavLink to="/" className="hover:text-indigo-400 transition duration-300">Home</NavLink>
                         <NavLink to="/about" className="hover:text-indigo-400 transition duration-300">About</NavLink>
 
-                        {
+                        {/* {
                             decode?.role == 'user' ? <NavLink to="/userdashboard" className="hover:text-indigo-400 transition duration-300">Dashboard</NavLink> : <NavLink to="/admindashboard" className="hover:text-indigo-400 transition duration-300">Dashboard</NavLink>
-                        }
+                        } */}
+
+
+                        <NavLink to={decode?.role === 'user' ? '/userdashboard' : "/admindashboard"} className="hover:text-indigo-400 transition duration-300">Dashboard</NavLink>
 
                         {!decode ? (
                             <>

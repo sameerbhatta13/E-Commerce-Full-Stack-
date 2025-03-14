@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { APP_URL } from '../../config'
 import { useVerifyOtpMutation } from '../redux/Api/UserApi'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'

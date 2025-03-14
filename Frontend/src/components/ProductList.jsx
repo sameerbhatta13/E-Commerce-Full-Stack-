@@ -68,7 +68,7 @@ const ProductList = () => {
                                 <p className="text-green-600 font-semibold mt-2">In Stock: {product.countInStock}</p>
                                 <div className="flex justify-between mt-4">
                                     <button
-                                        onClick={() => navigate(`/product/${product._id}`, { state: product })}
+                                        onClick={() => navigate(`${product._id}`, { state: product })}
                                         className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 transition"
                                     >
                                         View More

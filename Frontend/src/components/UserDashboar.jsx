@@ -11,7 +11,7 @@ const UserDashboar = () => {
     const navigate = useNavigate()
 
     const { data: getUserProfile, error, isError } = useGetOneUserQuery()
-    console.log(getUserProfile?.data?.image)
+    // console.log(getUserProfile?.data?.image)
 
     const handleLogout = () => {
         dispatch(logout())
@@ -24,8 +24,9 @@ const UserDashboar = () => {
 
             <div className="flex min-h-screen bg-gray-100 ">
                 {/* Sidebar */}
-                <aside className="w-64 bg-[#16113A] text-white flex flex-col overflow-hidden">
-                    <div className="py-6 px-4 text-center text-xl font-semibold border-b border-blue-600">
+                <aside className="w-64 bg-[#16113A] text-white flex flex-col overflow-hidden fixed h-full">
+                    <div className="py-6 px-4 text-center text-xl font-semibold border-b border-blue-600 flex flex-col">
+                        <a href="" onClick={() => navigate('/')} className='font-thin bg-red-900 rounded-lg w-fit p-2 ml-10 hover:scale-105 mb-2'>Back To Home</a>
                         <a href="" onClick={() => navigate('')}> User Dashboard</a>
                     </div>
                     <nav className="flex-1 px-4 py-4">
@@ -33,6 +34,7 @@ const UserDashboar = () => {
                             <li className="mb-2">
                                 <a
                                     href=""
+                                    title='profile'
                                     className="block px-4 py-2 rounded hover:bg-blue-600" onClick={() => navigate('profile')}
                                 >
                                     Profile
@@ -70,7 +72,7 @@ const UserDashboar = () => {
 
 
                 {/* Main Content */}
-                <div className="flex-1 flex flex-col overflow-auto">
+                <div className="flex-1 flex flex-col ml-64 h-screen overflow-y-auto">
                     {/* Top Navbar */}
                     <header className="h-16 bg-white shadow-md flex items-center justify-between px-6">
                         <h1 className="text-lg font-medium">Welcome,    {getUserProfile?.data?.username}</h1>
@@ -78,11 +80,14 @@ const UserDashboar = () => {
                             <button className="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
                                 🔔
                             </button>
-                            <img
-                                src={`${APP_URL}/image/${getUserProfile?.data?.image}`}
-                                alt="User Avatar"
-                                className="w-10 h-10 rounded-full border"
-                            />
+                            <a href="" title='profile Image'>
+                                <img
+                                    src={`${APP_URL}/image/${getUserProfile?.data?.image}`}
+                                    alt="User Avatar"
+                                    className="w-10 h-10 rounded-full border"
+                                />
+                            </a>
+
                         </div>
                     </header>
 
@@ -98,13 +103,13 @@ const UserDashboar = () => {
 
                             {/* Card 2 */}
                             <div className="bg-white rounded-lg shadow p-4">
-                                <h3 className="text-lg font-medium mb-2">Settings</h3>
+                                <button className="text-lg font-medium mb-2">Settings</button>
                                 <p className="text-sm text-gray-600">Manage your account settings.</p>
                             </div>
 
                             {/* Card 3 */}
                             <div className="bg-white rounded-lg shadow p-4">
-                                <h3 className="text-lg font-medium mb-2">Reports</h3>
+                                <button className="text-lg font-medium mb-2" onClick={() => navigate('report')}>Reports</button>
                                 <p className="text-sm text-gray-600">View your activity reports.</p>
                             </div>
                         </div>

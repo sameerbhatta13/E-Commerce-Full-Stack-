@@ -58,14 +58,12 @@ export const CartApi = createApi({
             })
         }),
         removewholeCart: builder.mutation({
-            query: (id) => ({
-                url: `/cart/${id}`,
+            query: () => ({
+                url: `/cart`,
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-
-
             })
         })
     })

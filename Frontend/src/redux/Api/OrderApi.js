@@ -19,8 +19,17 @@ export const OrderApi = createApi({
 
             })
         }),
+        getUserOrder: builder.query({
+            query: () => ({
+                url: '/order',
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            })
+        })
 
     })
 })
 
-export const { usePostOrderMutation } = OrderApi
+export const { usePostOrderMutation, useGetUserOrderQuery } = OrderApi

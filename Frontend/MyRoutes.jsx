@@ -19,6 +19,7 @@ import ProductList from './src/components/ProductList'
 import SignUp from './src/pages/SignUp'
 import AdminDashboard from './src/components/AdminDashboard'
 import DashboardLayout from './src/components/DashboardLayout'
+import OrderReport from './src/pages/OrderReport'
 
 
 const MyRoutes = () => {
@@ -33,7 +34,7 @@ const MyRoutes = () => {
                         <Route path='/about' element={<About />} />
                         {/* <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} /> */}
                         <Route path='/verify' element={<Verify />} />
-                        <Route path='/product/:id' element={<Protected Cmp={ViewMore} />} />
+                        <Route path='/userdashboard/product/:id' element={<Protected Cmp={ViewMore} />} />
                         <Route path='/tailwind' element={<Tailwind />} />
                         <Route path='/profile' element={<Protected Cmp={Profile} />} />
                         <Route path='/cart' element={<Protected Cmp={Cart} />} />
@@ -48,7 +49,13 @@ const MyRoutes = () => {
                         <Route path='dashboardlayout' element={<DashboardLayout />} />
                         <Route path='profile' element={<Profile />} />
                         <Route path='product' element={<ProductList />} />
-                        <Route path='cart' element={<Cart />} />
+                        <Route path='product/:id' element={<ViewMore />} />
+                        <Route path='cart' element={<Cart />} >
+                            <Route path='product' element={<ProductList />} />
+                        </Route>
+                        <Route path='report' element={<OrderReport />} />
+
+
                     </Route>
 
                 </Routes>

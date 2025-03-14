@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import { usePostOrderMutation } from '../redux/Api/OrderApi'
 import { toast } from 'react-toastify'
+import { useRemovewholeCartMutation } from '../redux/Api/CartApi'
 
-const ShippingAddress = ({ cardData, setModal }) => {
-    console.log("cardData", cardData?.[0].products)
-    const productId = cardData?.[0]?.products?.some(productId => productId._id)
-    console.log(productId)
+const ShippingAddress = ({ cardData, setModal, totalamount, refetch }) => {
 
     const [shippAdd, setShippAdd] = useState({
         fullName: '',
@@ -22,6 +20,7 @@ const ShippingAddress = ({ cardData, setModal }) => {
 
     const finalOder = {
         products: data,
+        totalAmount: totalamount,
         shippingAddress: shippAdd
     }
     const handleChange = (e) => {
@@ -34,14 +33,17 @@ const ShippingAddress = ({ cardData, setModal }) => {
     }
 
     const [postOrder, { error }] = usePostOrderMutation()
+    const [removeWholeCart, { isError }] = useRemovewholeCartMutation()
 
     const handleOrder = async (e) => {
         e.preventDefault()
         try {
             const placeOrder = await postOrder(finalOder)
             console.log('order', placeOrder)
-            if (placeOrder?.data?.data?.message) {
+            if (placeOrder?.data?.message) {
                 toast.success('order placed successfully')
+                await removeWholeCart()
+                refetch()
                 setModal(false)
             }
             else {
