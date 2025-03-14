@@ -3,18 +3,18 @@ const asyncHandler = require("../../utils/asyncHandler");
 const Order = require('./order.model')
 const Product = require('../Products/product.model')
 const ApiError = require('../../utils/apiError')
+const User = require('../Users/user.model')
 
 
 exports.postOrder = asyncHandler(async (req, res) => {
     const { _id } = req.user
-    const { products, shippingAddress } = req.body
-    console.log('shippingAddress', shippingAddress)
-    let totalAmount = 0
-    const order = await Order.findOne({ userId: _id })
-    if (!order) {
+    const { products, shippingAddress, totalAmount: bodyTotalAmount } = req.body
+    let calculatedTotalAmount = 0
+    const user = await User.findOne(_id)
+    if (!user) {
         throw new ApiError('user is not found')
     }
-    // console.log(order)
+
     if (!Array.isArray(products) || products.length === 0) {
         throw new ApiError("Products list is required and must be an array");
     }
@@ -41,7 +41,7 @@ exports.postOrder = asyncHandler(async (req, res) => {
             throw new ApiError(`product with id ${p.productId} not found`)
         }
         const itemTotal = product.price * p.quantity
-        totalAmount += itemTotal
+        calculatedTotalAmount += itemTotal
 
         return {
             productId: product._id,
@@ -49,7 +49,8 @@ exports.postOrder = asyncHandler(async (req, res) => {
             price: product.price
         };
     })
-    console.log("finalProducts", finalProducts)
+    // console.log("finalProducts", finalProducts)
+    const totalAmount = bodyTotalAmount ?? calculatedTotalAmount
 
     let newOrder = new Order({
         userId: _id,
@@ -73,15 +74,11 @@ exports.postOrder = asyncHandler(async (req, res) => {
 exports.getOrderItems = asyncHandler(async (req, res) => {
     const { _id } = req.user
 
-    const user = await Order.findOne({ userId: _id })
-    if (!user) {
+    const userOrder = await Order.find({ userId: _id }).populate('products.productId')
+    if (!userOrder) {
         throw new ApiError('user does not have orders')
     }
-    const order = await Order.find().populate('products', 'totalAmount')
 
-    if (!order) {
-        throw new ApiError('No list of product')
-    }
-    res.status(200).json(new ApiResponse('here is the list of orders', order))
+    res.status(200).json(new ApiResponse('here is the list of orders', userOrder))
 
 })

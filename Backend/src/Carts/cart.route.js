@@ -11,7 +11,7 @@ router.get('/cart', authmiddleware, getCartByUser)
 router.put('/cart/increase/:productid', authmiddleware, qunantityIncrement)
 router.put('/cart/decrease/:productid', authmiddleware, quantityDecrement)
 router.put('/cart/remove/:productid', authmiddleware, removeOneCart)
-router.delete('/cart/:id', authmiddleware, removeWholeCart)
+router.delete('/cart', authmiddleware, removeWholeCart)
 
 
 module.exports = router

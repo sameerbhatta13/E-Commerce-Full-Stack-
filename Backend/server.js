@@ -22,7 +22,8 @@ let port = process.env.PORT
 
 //middleware
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174'], // Frontend URL
+    origin: ['http://localhost:5173', 'http://localhost:5174', `http://${process.env.IP_ADDRESS}:5173`], // Frontend URL
+    methods: ['POST', 'PUT', 'GET', 'DELETE'],
     credentials: true,
 }))
 app.use(cookieParser())
@@ -44,7 +45,7 @@ app.use(notFound)
 app.use(erroMiddleware)
 
 
-app.listen(port, () => {
+app.listen(port, process.env.IP_ADDRESS, () => {
 
-    console.log(`server is connect at ${port}`)
+    console.log(`server is connect at http://${process.env.IPADDRESS}:${port}`)
 })

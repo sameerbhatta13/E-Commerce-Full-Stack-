@@ -122,7 +122,7 @@ exports.qunantityIncrement = asyncHandler(async (req, res) => {
     if (checkProduct.quantity >= product.countInStock) {
         throw new ApiError('stock limit is reached ')
     }
-    const data = await Cart.findOneAndUpdate({ 'products.productId': productid }, {
+    const data = await Cart.findOneAndUpdate({ userId: _id, 'products.productId': productid }, {
         $inc: { 'products.$.quantity': 1 }
     }, {
         new: true
@@ -147,7 +147,7 @@ exports.quantityDecrement = asyncHandler(async (req, res) => {
     }
 
     const data = await Cart.findOneAndUpdate(
-        { 'products.productId': req.params.productid },
+        { userId: _id, 'products.productId': req.params.productid },
         {
             $inc: { 'products.$.quantity': -1 }
         }, { new: true }
@@ -168,7 +168,7 @@ exports.removeOneCart = asyncHandler(async (req, res) => {
         throw new ApiError('product is not available')
     }
     const cart = await Cart.findOneAndUpdate(
-        { 'products.productId': req.params.productid },
+        { userId: _id, 'products.productId': req.params.productid },
         {
             $pull: { products: { productId: req.params.productid } }
         },
@@ -181,14 +181,9 @@ exports.removeOneCart = asyncHandler(async (req, res) => {
 exports.removeWholeCart = asyncHandler(async (req, res) => {
     const { _id } = req.user
 
-    const user = await Cart.findOne({ userId: _id })
-    if (!user) {
+    const userCart = await Cart.findOneAndDelete({ userId: _id })
+    if (!userCart) {
         throw new ApiError('user does not have cart items', 400)
-    }
-
-    const cart = await Cart.findByIdAndDelete(req.params.id)
-    if (!cart) {
-        throw new ApiError('cart is not found', 400)
     }
     return res.status(200).json(new ApiResponse('user cart is deleted successfully', 200))
 })
