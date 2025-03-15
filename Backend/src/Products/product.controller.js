@@ -37,7 +37,7 @@ exports.postProduct = asyncHandler(async (req, res) => {
 
 //to get all the product
 exports.listAllProduct = asyncHandler(async (req, res) => {
-    const list = await Product.find().populate('category')
+    const list = await Product.find().populate('category').sort({ createdAt: -1 })
 
     if (!list) throw new ApiError('no product list found', 400)
     res.status(200).json(new ApiResponse('here is the detail list', list))
