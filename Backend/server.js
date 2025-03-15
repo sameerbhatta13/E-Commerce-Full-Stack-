@@ -45,7 +45,7 @@ app.use(notFound)
 app.use(erroMiddleware)
 
 
-app.listen(port, process.env.IP_ADDRESS, () => {
+app.listen(port, () => {
 
-    console.log(`server is connect at http://${process.env.IPADDRESS}:${port}`)
+    console.log(`server is connect at :${port}`)
 })

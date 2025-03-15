@@ -22,9 +22,8 @@ const authmiddleware = asyncHandler(async (req, res, next) => {
 })
 
 const adminMiddleware = asyncHandler(async (req, res, next) => {
-
     const { _id } = req.user
-    console.log(_id)
+    // console.log(_id)
     const userRole = await User.findById(_id)
     console.log(userRole)
     if (userRole.role != 'admin') {

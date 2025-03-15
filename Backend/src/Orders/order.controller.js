@@ -82,3 +82,11 @@ exports.getOrderItems = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse('here is the list of orders', userOrder))
 
 })
+
+exports.getAllUserOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({})
+    if (!orders) {
+        throw new ApiError('no orders is available')
+    }
+    res.status(200).json(new ApiResponse('here is order list', orders))
+})

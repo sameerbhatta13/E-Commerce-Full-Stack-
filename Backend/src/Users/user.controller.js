@@ -178,7 +178,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
 })
 
 exports.getAllUser = asyncHandler(async (req, res) => {
-    const data = await User.find()
+    const data = await User.find({})
     res.status(200).json(new ApiResponse('here is all user', data))
 })
 
