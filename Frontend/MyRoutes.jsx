@@ -35,11 +35,11 @@ const MyRoutes = () => {
                         <Route path='/about' element={<About />} />
                         {/* <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} /> */}
                         <Route path='/verify' element={<Verify />} />
-                        <Route path='/userdashboard/product/:id' element={<Protected Cmp={ViewMore} />} />
+                        <Route path='/product/:id' element={<Protected Cmp={ViewMore} />} />
                         <Route path='/tailwind' element={<Tailwind />} />
                         <Route path='/profile' element={<Protected Cmp={Profile} />} />
                         <Route path='/cart' element={<Protected Cmp={Cart} />} />
-                        <Route path='/updateproduct/:id' element={<UpdateProduct />} />
+                        {/* <Route path='/updateproduct/:id' element={<UpdateProduct />} /> */}
                         <Route path='/crud' element={<Crud />} />
                         {/* <Route path='/addproduct' element={<AddProduct />} /> */}
                         <Route path='/product' element={<ProductList />} />
@@ -48,7 +48,7 @@ const MyRoutes = () => {
                     <Route path='/admindashboard' element={<Protected Cmp={AdminDashboard} />} >
                         <Route path='addproduct' element={<AddProduct />} />
                         <Route path='products' element={<Products />} />
-                        <Route path='product/:id' element={<ViewMore />} />
+                        <Route path='updateproduct/:id' element={<UpdateProduct />} />
                     </Route>
 
                     <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} >

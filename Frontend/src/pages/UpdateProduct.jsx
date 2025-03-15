@@ -4,16 +4,21 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useGetCategoryQuery } from '../redux/Api/CategoryApi'
 import { useGetSubCategoryBySearchQuery } from '../redux/Api/SubcategoryApi'
+import { APP_URL } from '../../config'
 
 
 const UpdateProduct = () => {
     const navigate = useNavigate()
     const [category, setCategory] = useState('')
     const [subCategory, setSubCategory] = useState('')
+    const [previewImage, setPreviewImage] = useState(null)
+
     const { data: CategoryGet } = useGetCategoryQuery()
     const { state } = useLocation()
     const { data: SearchSubcategory, isError, error } = useGetSubCategoryBySearchQuery(category)
     console.log('subcategory', SearchSubcategory)
+
+    // console.log(`${APP_URL}/image/${state.image}`)f
 
 
     const [yab] = useUpdateProductMutation()
@@ -22,6 +27,7 @@ const UpdateProduct = () => {
 
     const [productData, setProductData] = useState({
         title: '',
+        image: null,
         price: '',
         description: '',
         countInStock: '',
@@ -32,6 +38,14 @@ const UpdateProduct = () => {
             ...productData,
             [e.target.name]: e.target.value
         })
+    }
+    const handleImageChange = (e) => {
+        const file = e.target.files[0]
+        setProductData({
+            ...productData,
+            image: file
+        })
+        setPreviewImage(URL.createObjectURL(file))
     }
     const handleCategoryChange = (e) => {
         const selectedCategory = e.target.value
@@ -45,8 +59,19 @@ const UpdateProduct = () => {
 
     const handlesubmit = async (e) => {
         e.preventDefault()
+
+        const formData = new FormData()
+        formData.append('title', productData.title)
+        formData.append('price', productData.price);
+        formData.append('description', productData.description);
+        formData.append('countInStock', productData.countInStock);
+        formData.append('category', productData.category);
+        formData.append('subCategory', subCategory)
+        if (productData.image) {
+            formData.append('image', productData.image)
+        }
         try {
-            const updateData = await yab({ id, data: productData })
+            const updateData = await yab({ id, data: formData })
             console.log(updateData)
             if (updateData.error) {
                 console.log('error', updateData.error)
@@ -54,7 +79,7 @@ const UpdateProduct = () => {
             }
             else {
                 toast.success('product updated')
-                navigate('/crud')
+                navigate('/admindashboard/products')
 
             }
         } catch (error) {
@@ -66,13 +91,13 @@ const UpdateProduct = () => {
         if (state) {
             setProductData({
                 title: state.title,
+                image: null,
                 price: state.price,
                 description: state.description,
                 countInStock: state.countInStock,
                 category: state.category._id
-
-
             })
+            setPreviewImage(`${APP_URL}/image/${state.image}`)
         }
     }, [state])
     // console.log('category', productData.category)
@@ -88,6 +113,18 @@ const UpdateProduct = () => {
                                 <label className='text-2xl'>Product Title:</label>
                                 <input type="text" placeholder='product title' name='title' value={productData.title}
                                     onChange={handleChange} className='border-2 rounded-md my-1 flex flex-col p-3 w-96' />
+                            </div>
+                            <div className='basis-1/2 my-3 '>
+                                <label className='text-2xl'>Product Image</label>
+                                <input type="file" placeholder='product image' accept='image/*' name='image'
+                                    onChange={handleImageChange} className='border-2 rounded-md my-1 flex flex-col p-3 w-96' />
+                                {previewImage && (
+                                    <img
+                                        src={previewImage}
+                                        alt="Preview"
+                                        className='w-40 h-32 rounded-lg object-cover p-2 my-2'
+                                    />
+                                )}
                             </div>
                             <div className='basis-1/2 my-3'>
                                 <label className='text-2xl'>Product Price:</label>
@@ -111,8 +148,8 @@ const UpdateProduct = () => {
                             </div>
 
                             <div className='basis-1/2 my-3'>
-                                <label className='text-2xl'>Product Category:</label>
-                                <select value={subCategory} onChange={(e) => setSubCategory(e.target.value)} name="category" id="" className='border-2 rounded-md my-1 flex flex-col  p-3 w-96'>
+                                <label className='text-2xl'>Product Sub Category:</label>
+                                <select value={subCategory} onChange={(e) => setSubCategory(e.target.value)} name="" id="" className='border-2 rounded-md my-1 flex flex-col  p-3 w-96'>
                                     <option value="" disabled>select category</option>
                                     {
                                         SearchSubcategory?.map((item) => (
@@ -130,7 +167,7 @@ const UpdateProduct = () => {
                             </div>
 
                         </div>
-                        <button type='submit' className='bg-[#95a5a6] text-xl border rounded-lg p-3 my-4 w-48'>update</button>
+                        <button type='submit' className='bg-[#95a5a6] text-xl border rounded-lg p-3 my-4 w-48 hover:bg-red-800 hover:text-white'>update</button>
                     </form>
                 </div>
 

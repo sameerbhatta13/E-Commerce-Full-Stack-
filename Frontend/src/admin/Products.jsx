@@ -3,8 +3,10 @@ import { useGetProductQuery } from '../redux/Api/ProductApi'
 import { APP_URL } from '../../config'
 import { FiEdit } from "react-icons/fi";
 import { AiFillDelete } from "react-icons/ai";
+import { useNavigate } from 'react-router-dom';
 
 const Products = () => {
+    const navigate = useNavigate()
     const { data: Product, isError, error } = useGetProductQuery()
     console.log("first", Product?.data?.length)
 
@@ -77,7 +79,8 @@ const Products = () => {
                                         </td>
                                         <td className="p-4 border-b border-slate-200 py-5">
                                             <div className='flex flex-row gap-4 '>
-                                                <FiEdit size={20} /> <AiFillDelete size={20} />
+                                                <button onClick={() => navigate(`/admindashboard/updateproduct/${item._id}`, { state: item })} > <FiEdit size={20} /></button>
+                                                <button><AiFillDelete size={20} /></button>
                                             </div>
                                         </td>
 

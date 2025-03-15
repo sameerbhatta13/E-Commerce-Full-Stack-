@@ -113,7 +113,7 @@ const ViewMore = () => {
                             <p><b>Category:</b> {product.category?.title}</p>
                             <div className=' grid grid-cols-1 md:grid-cols-2 gap-6'>
                                 <button className='bg-[#0cb9c7] text-xl border rounded-lg p-2 my-4'>Buy Now</button>
-                                <button onClick={() => navigate(`/updateproduct/${product._id}`, {
+                                <button onClick={() => navigate(`${product._id}`, {
                                     state: product
                                 })} className='bg-[#95a5a6] text-xl border rounded-lg p-2 my-4'>
                                     Update Product</button>

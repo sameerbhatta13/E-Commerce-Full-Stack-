@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { APP_URL } from '../../config';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetProductQuery } from '../redux/Api/ProductApi';
 import { usePostOrderMutation } from '../redux/Api/OrderApi';
 
 const ProductList = () => {
+    const location = useLocation()
+    const isUserDashboard = location.pathname.startsWith('/userdashboard')
     const navigate = useNavigate();
     const { data: ProductGet, isLoading, refetch } = useGetProductQuery();
     const products = ProductGet?.data || [];
@@ -53,9 +55,14 @@ const ProductList = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {displayedProducts.length > 0 ? (
-                    displayedProducts.map((product, index) => (
-                        <div key={index} className="bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden">
+                {displayedProducts?.length > 0 ? (
+                    displayedProducts?.map((product, index) => {
+                        // const currentLocation = window.location.pathname.includes('usedashboard') ? `/userdashboard/product/${product._id}` : `/product/$
+                        // {product._id}`
+                        const currentLocation = isUserDashboard
+                            ? `/userdashboard/product/${product._id}`
+                            : `/product/${product._id}`;
+                        return (<div key={index} className="bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden">
                             <img
                                 src={`${APP_URL}/image/${product.image}`}
                                 alt={product.title}
@@ -68,7 +75,7 @@ const ProductList = () => {
                                 <p className="text-green-600 font-semibold mt-2">In Stock: {product.countInStock}</p>
                                 <div className="flex justify-between mt-4">
                                     <button
-                                        onClick={() => navigate(`${product._id}`, { state: product })}
+                                        onClick={() => navigate(currentLocation, { state: product })}
                                         className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 transition"
                                     >
                                         View More
@@ -81,7 +88,8 @@ const ProductList = () => {
                                 </div>
                             </div>
                         </div>
-                    ))
+                        )
+                    })
                 ) : (
                     <h3 className="text-center text-gray-600">No products available</h3>
                 )}

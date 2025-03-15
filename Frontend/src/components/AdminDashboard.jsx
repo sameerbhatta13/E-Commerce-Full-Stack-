@@ -82,25 +82,7 @@ const AdminDashboard = () => {
                     <div>
                         <Outlet />
                     </div>
-                    {/* <div className="mt-8">
-                        <h3 className="text-2xl font-medium text-gray-700 mb-4">Recent Activities</h3>
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                            <ul>
-                                <li className="border-b py-4 text-gray-700">
-                                    <p><span className="font-semibold">John Doe</span> updated his profile</p>
-                                    <span className="text-sm text-gray-500">2 hours ago</span>
-                                </li>
-                                <li className="border-b py-4 text-gray-700">
-                                    <p><span className="font-semibold">Jane Smith</span> placed a new order</p>
-                                    <span className="text-sm text-gray-500">3 hours ago</span>
-                                </li>
-                                <li className="py-4 text-gray-700">
-                                    <p><span className="font-semibold">Michael Scott</span> created a new report</p>
-                                    <span className="text-sm text-gray-500">1 day ago</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> */}
+
                 </div>
 
 
