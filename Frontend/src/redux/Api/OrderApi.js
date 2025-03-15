@@ -27,9 +27,18 @@ export const OrderApi = createApi({
                     Authorization: `Bearer ${token}`
                 },
             })
+        }),
+        getAllOrderForAdmin: builder.query({
+            query: () => ({
+                url: '/allorder',
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
         })
 
     })
 })
 
-export const { usePostOrderMutation, useGetUserOrderQuery } = OrderApi
+export const { usePostOrderMutation, useGetUserOrderQuery, useGetAllOrderForAdminQuery, } = OrderApi

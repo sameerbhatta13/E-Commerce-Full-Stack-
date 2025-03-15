@@ -45,10 +45,19 @@ export const UserApi = createApi({
                     Authorization: `Bearer ${token}`
                 }
             })
+        }),
+        getAllUser: builder.query({
+            query: () => ({
+                url: '/alluser',
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
         })
 
     })
 })
 
 
-export const { useAddUserMutation, useSignInMutation, useVerifyOtpMutation, useRefreshTokenMutation, useGetOneUserQuery } = UserApi
+export const { useAddUserMutation, useSignInMutation, useVerifyOtpMutation, useRefreshTokenMutation, useGetOneUserQuery, useGetAllUserQuery } = UserApi

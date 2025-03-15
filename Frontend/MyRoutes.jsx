@@ -20,6 +20,7 @@ import SignUp from './src/pages/SignUp'
 import AdminDashboard from './src/components/AdminDashboard'
 import DashboardLayout from './src/components/DashboardLayout'
 import OrderReport from './src/pages/OrderReport'
+import Products from './src/admin/Products'
 
 
 const MyRoutes = () => {
@@ -40,10 +41,16 @@ const MyRoutes = () => {
                         <Route path='/cart' element={<Protected Cmp={Cart} />} />
                         <Route path='/updateproduct/:id' element={<UpdateProduct />} />
                         <Route path='/crud' element={<Crud />} />
-                        <Route path='/addproduct' element={<AddProduct />} />
+                        {/* <Route path='/addproduct' element={<AddProduct />} /> */}
                         <Route path='/product' element={<ProductList />} />
                     </Route>
-                    <Route path='/admindashboard' element={<Protected Cmp={AdminDashboard} />} />
+
+                    <Route path='/admindashboard' element={<Protected Cmp={AdminDashboard} />} >
+                        <Route path='addproduct' element={<AddProduct />} />
+                        <Route path='products' element={<Products />} />
+                        <Route path='product/:id' element={<ViewMore />} />
+                    </Route>
+
                     <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} >
 
                         <Route path='dashboardlayout' element={<DashboardLayout />} />
