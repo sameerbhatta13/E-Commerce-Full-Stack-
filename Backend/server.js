@@ -7,6 +7,7 @@ const morgan = require('morgan')
 var cookieParser = require('cookie-parser')
 
 require('./Db/connection')
+const { removeOTP } = require('./middleware/cleanUpExipryOtp')
 const userRoute = require('./src/Users/user.routes')
 const productRoute = require('./src/Products/product.route')
 const categoryRoute = require('./src/categories/category.route')
@@ -43,6 +44,8 @@ app.use('/api', cartRoute)
 //error middleware
 app.use(notFound)
 app.use(erroMiddleware)
+
+removeOTP()
 
 
 app.listen(port, () => {

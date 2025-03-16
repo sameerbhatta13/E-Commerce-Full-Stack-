@@ -1,13 +1,12 @@
 const asyncHandler = require('../../utils/asyncHandler')
 const User = require('./user.model')
-const sendEmail = require('../../utils/verifyEmail')
+const { sendEmail, sendEmailFB } = require('../../utils/verifyEmail')
 const otpGenerator = require('../../utils/otpGenerator')
 const ApiResponse = require('../../utils/apiResponse')
 const ApiError = require('../../utils/apiError')
 const jwtToken = require('../../utils/jwtTokenGenerator')
 const jwt = require('jsonwebtoken')
 const { encryptPassword, decryptPassword } = require('../../utils/encryptPassword')
-
 
 
 exports.postUser = asyncHandler(async (req, res) => {
@@ -151,6 +150,59 @@ exports.RefreshToken = asyncHandler(async (req, res) => {
 })
 
 
+exports.forgetPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body
+
+    const checkEmail = await User.findOne({ email: email })
+    if (!checkEmail) {
+        throw new ApiError('email does not find', 400)
+    }
+    const otp = otpGenerator()
+    await sendEmailFB({
+        to: checkEmail.email,
+        subject: `Reset Password OTP`,
+        html: `do not share your otp , use this otp to resent password </br> <b>${otp}</b>`
+    })
+    await User.findOneAndUpdate({ email }, {
+        otp: otp
+    }, { new: true })
+    res.json(new ApiResponse('otp is sent to reset passsword to your gmail', { userId: checkEmail._id }))
+
+})
+
+exports.verifyOtp = asyncHandler(async (req, res) => {
+    const { otp } = req.body
+    if (!otp) {
+        throw new ApiError('provide a otp')
+    }
+    const user = await User.findOne({ otp: otp })
+    if (!user) {
+        throw new ApiError('otp does not match')
+    }
+
+    await User.findOneAndUpdate({ otp }, {
+        otp: ''
+    })
+    res.json(new ApiResponse('otp is verified '))
+})
+
+exports.resetPassword = asyncHandler(async (req, res) => {
+    const { password } = req.body
+    const { iv, encryptedData } = encryptPassword(password)
+    const update = await User.findByIdAndUpdate(req.params.id, { password: encryptedData, iv: iv },
+        { new: true })
+
+    if (!update) {
+        throw new ApiError("user not found")
+    }
+    else {
+        return res
+            .status(200)
+            .json(new ApiResponse(" updated successfully", update));
+    }
+})
+
+
 exports.myData = asyncHandler(async (req, res) => {
     const { _id } = req.user
 
@@ -175,7 +227,6 @@ exports.updateUser = asyncHandler(async (req, res) => {
     }
     else {
         const updateUser = await User.findByIdAndUpdate({ _id: _id }, { ...req.body }, { new: true })
-
         if (!updateUser) {
             throw new ApiError('user is not found ', 400)
         }
