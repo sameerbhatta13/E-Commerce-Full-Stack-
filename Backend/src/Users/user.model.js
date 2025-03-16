@@ -39,7 +39,8 @@ const userShema = new mongoose.Schema({
     },
     refrestoken: {
         type: String
-    }
+    },
+    iv: { type: String, required: true }
 
 })
 

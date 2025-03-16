@@ -6,7 +6,8 @@ const ApiResponse = require('../../utils/apiResponse')
 const ApiError = require('../../utils/apiError')
 const jwtToken = require('../../utils/jwtTokenGenerator')
 const jwt = require('jsonwebtoken')
-const cookieParser = require('cookie-parser')
+const { encryptPassword, decryptPassword } = require('../../utils/encryptPassword')
+
 
 
 exports.postUser = asyncHandler(async (req, res) => {
@@ -15,14 +16,17 @@ exports.postUser = asyncHandler(async (req, res) => {
 
     let newOTP = otpGenerator()
 
+    const { iv, encryptedData } = encryptPassword(password)
+
     let user = new User({
         username,
         email,
         phone,
         role,
-        password,
+        password: encryptedData,
         otp: newOTP,
-        image: image
+        image: image,
+        iv: iv
     })
     const existingUser = await User.findOne({ email: user.email })
     // console.log('data', data)
@@ -48,6 +52,7 @@ exports.postUser = asyncHandler(async (req, res) => {
 
 exports.verify = asyncHandler(async (req, res) => {
     let { otp } = req.body
+
 
     if (!otp) {
         throw new ApiError('opt is required.', 400)
@@ -82,13 +87,15 @@ exports.verify = asyncHandler(async (req, res) => {
 })
 
 
-
 exports.signIn = asyncHandler(async (req, res) => {
     let { email, password } = req.body
     let user = await User.findOne({ email })
     if (!user) throw new ApiError("user is not registered", 403)
+
+    const descriptedPassword = decryptPassword(user.password, user.iv)
+
     if (!user.isvarified) throw new ApiError("your account is not verified, otp is send to your email please verify")
-    if (user.password != password) {
+    if (descriptedPassword != password) {
         throw new ApiError("email or password  does not match", 403)
     }
     const accessToken = jwtToken.jwtToken(user._id, user.role)

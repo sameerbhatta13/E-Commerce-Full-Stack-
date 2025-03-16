@@ -21,10 +21,10 @@ exports.postOrder = asyncHandler(async (req, res) => {
     const productIds = products.map(p => p.productId)
 
 
-    const existingOrder = await Order.find({ userId: _id, "products.productId": { $all: productIds } })
+    const existingOrder = await Order.find({ userId: _id, "products.productId": { $in: productIds }, status: 'pending' })
 
     if (existingOrder.length > 0) {
-        return res.status(400).json({ message: 'you already have a order ' })
+        return res.status(400).json({ message: 'you already have a order and it is pending ' })
     }
 
     const fetchedProducts = await Product.find({ _id: { $in: productIds } })
