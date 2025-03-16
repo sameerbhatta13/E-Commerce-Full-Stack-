@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useResetPasswordMutation, useUpdatePasswordMutation } from '../redux/Api/UserApi';
 
@@ -7,28 +7,48 @@ const UpdatePassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('')
-
+    const [userId, setUserId] = useState(null)
 
     // console.log(password)
 
     const [updatePass, { isError }] = useUpdatePasswordMutation()
-    const id = (localStorage.getItem('Id'))
-    console.log("id", id)
-    console.log("type of id", typeof id)
+    // const { userId, expiresAt } = JSON.parse(localStorage.getItem('Id'))
+    // console.log("id", userId)
+    // console.log("type of id", typeof userId)
+    // console.log('expires at', expiresAt)
+
+
+
+    useEffect(() => {
+        const storedId = localStorage.getItem('Id')
+        if (storedId) {
+            const { userId, expiresAt } = JSON.parse(localStorage.getItem('Id'))
+            const currentTime = new Date().getTime();
+
+            if (currentTime > expiresAt) {
+                // Expired, remove ID and redirect to login or reset page
+                localStorage.removeItem('Id');
+                navigate('/reset/otp'); // Redirect to password reset page
+            } else {
+                setUserId(userId); // ID is still valid
+            }
+        } else {
+            navigate('/reset/otp'); // Redirect if no ID is found
+        }
+
+    }, [navigate])
+
 
 
     const handleUpdatePassword = async (e) => {
         e.preventDefault()
-
-        // console.log(id)
-        // console.log(password)
 
         if (password !== confirmPassword) {
             setErrorMessage('password does not match')
         }
         else {
             try {
-                const response = await updatePass({ id, data: { password } })
+                const response = await updatePass({ id: userId, data: { password } })
                 console.log(password)
                 console.log(response)
                 // console.log("first", response)

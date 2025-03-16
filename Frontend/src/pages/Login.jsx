@@ -83,9 +83,12 @@ const Login = () => {
             const response = await resetPassword({ email })
             console.log("first", response)
 
+            const userId = response?.data?.data?.userId;
+            const expiresAt = new Date().getTime() + 15 * 60 * 1000;
+
             if (response?.data?.message) {
                 navigate('/reset/otp')
-                localStorage.setItem('Id', response?.data?.data?.userId)
+                localStorage.setItem('Id', JSON.stringify({ userId, expiresAt }))
             }
             else {
                 setErrorMessage('enter a correct email')
