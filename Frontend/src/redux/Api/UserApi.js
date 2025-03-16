@@ -54,10 +54,31 @@ export const UserApi = createApi({
                     Authorization: `Bearer ${token}`
                 }
             })
+        }),
+        resetPassword: builder.mutation({
+            query: (data) => ({
+                url: '/user/reset',
+                method: 'POST',
+                body: data
+            })
+        }),
+        verifyForgetPassOTP: builder.mutation({
+            query: (data) => ({
+                url: '/verifyotp',
+                method: 'POST',
+                body: data
+            })
+        }),
+        updatePassword: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/reset/password/${id}`,
+                method: 'POST',
+                body: data
+            })
         })
 
     })
 })
 
 
-export const { useAddUserMutation, useSignInMutation, useVerifyOtpMutation, useRefreshTokenMutation, useGetOneUserQuery, useGetAllUserQuery } = UserApi
+export const { useAddUserMutation, useSignInMutation, useVerifyOtpMutation, useRefreshTokenMutation, useGetOneUserQuery, useGetAllUserQuery, useVerifyForgetPassOTPMutation, useResetPasswordMutation, useUpdatePasswordMutation } = UserApi

@@ -6,7 +6,6 @@ import HomePage from './src/pages/HomePage'
 import Login from './src/pages/Login'
 import About from './src/pages/About'
 import UserDashboar from './src/components/UserDashboar'
-import Verify from './src/pages/verify'
 import Tailwind from './src/tailwindcss/Tailwind'
 import Profile from './src/pages/Profile'
 import ViewMore from './src/pages/ViewMore'
@@ -21,6 +20,10 @@ import AdminDashboard from './src/components/AdminDashboard'
 import DashboardLayout from './src/components/DashboardLayout'
 import OrderReport from './src/pages/OrderReport'
 import Products from './src/admin/Products'
+import Verify from './src/pages/Verify'
+import ResetOtp from './src/pages/ResetOtp'
+import UpdatePassword from './src/pages/UpdatePassword.JSX'
+
 
 
 const MyRoutes = () => {
@@ -33,6 +36,7 @@ const MyRoutes = () => {
                         <Route path='/signup' element={<SignUp />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/about' element={<About />} />
+
                         {/* <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} /> */}
                         <Route path='/verify' element={<Verify />} />
                         <Route path='/product/:id' element={<Protected Cmp={ViewMore} />} />
@@ -44,6 +48,8 @@ const MyRoutes = () => {
                         {/* <Route path='/addproduct' element={<AddProduct />} /> */}
                         <Route path='/product' element={<ProductList />} />
                     </Route>
+                    <Route path='/reset/otp' element={<ResetOtp />} />
+                    <Route path='/update/pass' element={<UpdatePassword />} />
 
                     <Route path='/admindashboard' element={<Protected Cmp={AdminDashboard} />} >
                         <Route path='addproduct' element={<AddProduct />} />

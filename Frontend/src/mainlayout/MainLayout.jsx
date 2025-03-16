@@ -6,10 +6,15 @@ import { Outlet } from 'react-router-dom'
 const MainLayout = () => {
     return (
         <>
-            <Navbar />
-            <Outlet />
-            {/* this outlet replace the components according to the route */}
-            <Footer />
+            <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <main className='flex-grow'>
+                    <Outlet />
+                    {/* this outlet replace the components according to the route */}
+                </main>
+
+                <Footer />
+            </div>
 
         </>
     )

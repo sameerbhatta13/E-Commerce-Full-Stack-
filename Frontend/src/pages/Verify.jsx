@@ -33,8 +33,8 @@ const Verify = () => {
     return (
         <>
 
-            <div className='flex flex-col items-center'>
-                <h1 className='text-xl font-bold uppercase my-2'> verify the opt </h1>
+            <div className='flex flex-col items-center bottom-0'>
+                <h1 className='text-xl font-bold uppercase my-2'> verify the OTP </h1>
                 <form action="" onSubmit={verifyOtp}>
                     <input type="text" className="border p-3 rounded-md w-[100px] sm:w-[300px]  md:w-[900px]" placeholder='enter otp' onChange={(e) => setOtp(e.target.value)} />
                     <br />
