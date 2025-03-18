@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { setCredentials } from '../redux/Slice/AuthSlice'
 import Modal from 'react-modal'
 import { useResetPasswordMutation } from '../redux/Api/UserApi'
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 
 
 const Login = () => {
@@ -99,7 +100,11 @@ const Login = () => {
 
         }
         // setIsModalOpen(false);
-    };
+    }
+
+    const login = useGoogleLogin({
+        onSuccess: tokenResponse => console.log(tokenResponse),
+    });
 
     useEffect(() => {
         window.scrollTo({
@@ -143,6 +148,8 @@ const Login = () => {
                         <a href='' onClick={(e) => { setIsModalOpen(true), e.preventDefault() }} className='font-mono text-red-700 my-1'>Forget Password ?</a>
                         <h1 className='font-serif'>Does Not Have Account ? <a href='/signup' className='font-bold hover:text-blue-500'> SignUp</a> </h1>
                     </div>
+
+                    <button className='bg-slate-100 text-red-400 rounded-lg mt-3 p-2 ' onClick={() => login()}>Sign in with Google 🚀</button>;
                 </div>
             </div>
 

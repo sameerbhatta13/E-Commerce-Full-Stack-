@@ -85,12 +85,9 @@ const AddProduct = () => {
 
     }
 
-
-
-
     return (
         <>
-            <div className=' w-auto flex flex-row gap-2 p-8 mx-40 my-12'>
+            <div className=' w-auto flex flex-row gap-2 p-0 md:p-8   md:mx-40 my-12'>
                 <div className=' p-4'>
                     <form action="" onSubmit={handlesubmit} method='POST'>
                         <h1 className=' text-4xl underline underline-offset-4 my-6'>Add New Product</h1>
