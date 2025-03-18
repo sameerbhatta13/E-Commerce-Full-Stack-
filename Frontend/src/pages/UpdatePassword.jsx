@@ -9,8 +9,6 @@ const UpdatePassword = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [userId, setUserId] = useState(null)
 
-    // console.log(password)
-
     const [updatePass, { isError }] = useUpdatePasswordMutation()
     // const { userId, expiresAt } = JSON.parse(localStorage.getItem('Id'))
     // console.log("id", userId)
@@ -26,14 +24,14 @@ const UpdatePassword = () => {
             const currentTime = new Date().getTime();
 
             if (currentTime > expiresAt) {
-                // Expired, remove ID and redirect to login or reset page
+
                 localStorage.removeItem('Id');
-                navigate('/reset/otp'); // Redirect to password reset page
+                navigate('/reset/otp')
             } else {
-                setUserId(userId); // ID is still valid
+                setUserId(userId)
             }
         } else {
-            navigate('/reset/otp'); // Redirect if no ID is found
+            navigate('/reset/otp')
         }
 
     }, [navigate])
@@ -51,7 +49,6 @@ const UpdatePassword = () => {
                 const response = await updatePass({ id: userId, data: { password } })
                 console.log(password)
                 console.log(response)
-                // console.log("first", response)
 
                 if (response?.data?.data) {
                     localStorage.removeItem('Id')
@@ -95,7 +92,7 @@ const UpdatePassword = () => {
                                 type="password"
                                 className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Confirm new password"
-                                // name='confirmpassword'
+                                name='confirmpassword'
                                 value={confirmPassword}
                                 onChange={(e) => {
                                     setConfirmPassword(e.target.value)

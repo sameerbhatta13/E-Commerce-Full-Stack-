@@ -50,6 +50,14 @@ const SignUp = () => {
         }
 
     }
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'instant'
+        })
+    })
+
     return (
         <>
             <div className='flex justify-center mt-12'>

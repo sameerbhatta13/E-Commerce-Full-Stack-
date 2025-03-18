@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import slide1 from '../../public/dharara.jpg';
 
 const About = () => {
     const location = useLocation()
     console.log(location)
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'instant'
+        })
+    })
     return (
         <>
             <div className="max-w-6xl mx-auto p-6">

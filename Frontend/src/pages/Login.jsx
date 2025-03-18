@@ -45,7 +45,7 @@ const Login = () => {
                 })
                 if (response.ok) {
                     const data = await response.json()
-                    console.log(data)
+                    // console.log(data)
                     toast.success('successfully logged in ')
 
                     const { accessToken, refreshToken } = data
@@ -81,7 +81,7 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await resetPassword({ email })
-            console.log("first", response)
+            // console.log("first", response)
 
             const userId = response?.data?.data?.userId;
             const expiresAt = new Date().getTime() + 15 * 60 * 1000;
@@ -100,6 +100,13 @@ const Login = () => {
         }
         // setIsModalOpen(false);
     };
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'instant'
+        })
+    })
     return (
         <>
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
