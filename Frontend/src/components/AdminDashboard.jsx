@@ -17,7 +17,7 @@ const AdminDashboard = () => {
     const { data: UserOrder, error: adminError } = useGetAllOrderForAdminQuery()
 
     const countUser = Users?.data?.reduce((acc, user) => {
-        acc[user?.role] = (acc[user?.role] || 0) + 1;
+        acc[user?.role] = (acc[user?.role] || 0) + 1
         return acc
     }, {})
     const countOrder = UserOrder?.data?.reduce((acc, order) => {

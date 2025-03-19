@@ -70,7 +70,7 @@ const MyRoutes = () => {
 
 
                     </Route>
-
+                    <Route path='/tailwind' element={<Tailwind />} />
                 </Routes>
             </Router >
 

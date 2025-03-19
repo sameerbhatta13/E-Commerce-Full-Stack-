@@ -11,3 +11,7 @@ export default {
   plugins: [],
 }
 
+// module.exports = {
+//   plugins: [require('tailwindcss-3d')],
+// };
+

@@ -18,7 +18,6 @@ export const useFetch = (url,) => {
                 setSIngleProduct(data)
                 setUserProfile(data.data)
             }
-
         }
         fetchProduct()
     }, [])

@@ -66,10 +66,12 @@ const SwiperComponent = () => {
                             <div className="slide-caption">Nepal Heritage</div>
                         </div>
                     </SwiperSlide>
+                    {/* Custom Navigation Buttons */}
+
+                    <div className="custom-swiper-button-next">Next➡️</div>
+                    <div className="custom-swiper-button-prev">⬅️ Prev</div>
                 </Swiper>
-                {/* Custom Navigation Buttons */}
-                <div className="custom-swiper-button-next">Next ➡️</div>
-                <div className="custom-swiper-button-prev">⬅️ Prev</div>
+
             </div>
 
             {/* Product List Section */}
