@@ -1,5 +1,5 @@
 const express = require('express')
-const { postUser, signIn, verify, myData, getAllUser, adminLogIn, logoutUser, RefreshToken, updateUser, forgetPassword, verifyOtp, resetPassword } = require('./user.controller')
+const { postUser, signIn, verify, myData, getAllUser, adminLogIn, logoutUser, RefreshToken, updateUser, forgetPassword, verifyOtp, resetPassword, loginWithGoogle } = require('./user.controller')
 const AUTH = require('../../middleware/authMiddleware')
 const upload = require('../../middleware/uploadMiddeware')
 
@@ -7,6 +7,7 @@ const router = express.Router()
 
 router.post('/register', postUser)
 router.post('/signin', signIn)
+router.post('/login/google', loginWithGoogle)
 router.post('/verify', verify)
 router.post('/reset/email', forgetPassword)
 router.post('/verifyotp', verifyOtp)

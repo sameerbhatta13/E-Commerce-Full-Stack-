@@ -149,6 +149,31 @@ exports.RefreshToken = asyncHandler(async (req, res) => {
     }
 })
 
+exports.loginWithGoogle = asyncHandler(async (req, res) => {
+    const { email, username, isvarified, image } = req.body
+    const CheckUser = await User.findOne({ email: email })
+
+    if (CheckUser) {
+        const accessToken = jwtToken.jwtToken(CheckUser._id)
+        const refreshToken = jwtToken.refToken(CheckUser._id)
+        const role = CheckUser.role
+        return res.status(200).json(new ApiResponse('user looged in successful', accessToken, refreshToken, { role: role, user: CheckUser }))
+    }
+    else {
+        const user = new User({
+            username,
+            email,
+            isvarified,
+            image
+        })
+        const accessToken = jwtToken.jwtToken(user._id)
+        const refreshToken = jwtToken.refToken(user._id)
+
+        const data = await User.findById(user._id).select('-password ')
+        return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, data: data })
+
+    }
+})
 
 exports.forgetPassword = asyncHandler(async (req, res) => {
     const { email } = req.body
