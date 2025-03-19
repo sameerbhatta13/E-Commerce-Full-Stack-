@@ -22,6 +22,15 @@ export const UserApi = createApi({
                 body: data
             })
         }),
+
+        loginWithGoogle: builder.mutation({
+            query: (data) => ({
+                url: '/login/google',
+                method: 'POST',
+                body: data
+            })
+        }),
+
         verifyOtp: builder.mutation({
             query: (data) => ({
                 url: '/verify',
@@ -81,4 +90,4 @@ export const UserApi = createApi({
 })
 
 
-export const { useAddUserMutation, useSignInMutation, useVerifyOtpMutation, useRefreshTokenMutation, useGetOneUserQuery, useGetAllUserQuery, useVerifyForgetPassOTPMutation, useResetPasswordMutation, useUpdatePasswordMutation } = UserApi
+export const { useAddUserMutation, useSignInMutation, useVerifyOtpMutation, useRefreshTokenMutation, useGetOneUserQuery, useGetAllUserQuery, useVerifyForgetPassOTPMutation, useResetPasswordMutation, useUpdatePasswordMutation, useLoginWithGoogleMutation } = UserApi

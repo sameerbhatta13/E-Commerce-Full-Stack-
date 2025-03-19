@@ -44,7 +44,7 @@ const Profile = () => {
 
     return (
         <>
-            <div className='bg-gray-100 min-h-screen p-6 font-mono'>
+            <div className='bg-gray-100 min-h-screen p-6 font-mono '>
                 <div className='max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6'>
                     <h1 className='text-2xl text-gray-800 mb-4 underline font-bold'>User Profile</h1>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>

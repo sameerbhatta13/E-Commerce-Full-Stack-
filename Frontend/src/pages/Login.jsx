@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { APP_URL } from '../../config'
-import { useNavigate } from 'react-router-dom'
+import { replace, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../redux/Slice/AuthSlice'
 import Modal from 'react-modal'
-import { useResetPasswordMutation } from '../redux/Api/UserApi'
+import { useLoginWithGoogleMutation, useResetPasswordMutation } from '../redux/Api/UserApi'
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import google from '../../public/google1.png'
 
 
 const Login = () => {
@@ -102,9 +103,32 @@ const Login = () => {
         // setIsModalOpen(false);
     }
 
+    const [loginWithGoogle, { error: googleError }] = useLoginWithGoogleMutation()
+
     const login = useGoogleLogin({
-        onSuccess: tokenResponse => console.log(tokenResponse),
-    });
+        onSuccess: async (tokenResponse) => {
+            const userInfoResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                headers: {
+                    Authorization: `Bearer ${tokenResponse.access_token}`
+                }
+            })
+            const userInfo = await userInfoResponse.json()
+            const api = await loginWithGoogle({
+                email: userInfo?.email,
+                username: userInfo?.name,
+                image: userInfo?.picture,
+                isVarified: userInfo?.email_verified
+            })
+            if (api?.error) {
+                setError(api.error?.data?.message)
+            }
+            const { accessToken, refreshToken } = api?.data
+            dispatch(setCredentials({ accessToken, refreshToken }))
+            setError('')
+            navigate('/', replace)
+        },
+        onError: (err) => console.log(err)
+    })
 
     useEffect(() => {
         window.scrollTo({
@@ -112,6 +136,7 @@ const Login = () => {
             behavior: 'instant'
         })
     })
+
     return (
         <>
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -140,7 +165,7 @@ const Login = () => {
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200">
+                            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200 text-xl">
                             Log In
                         </button>
                     </form>
@@ -149,10 +174,9 @@ const Login = () => {
                         <h1 className='font-serif'>Does Not Have Account ? <a href='/signup' className='font-bold hover:text-blue-500'> SignUp</a> </h1>
                     </div>
 
-                    <button className='bg-slate-100 text-red-400 rounded-lg mt-3 p-2 ' onClick={() => login()}>Sign in with Google 🚀</button>;
+                    <button className=' text-red-600 rounded-xl mt-4  py-2 text-xl w-full flex flex-row gap-2 justify-center border-y-2 border-black' onClick={() => login()}><img src={google} className='w-8 h-8' /> Sign in with Google</button>
                 </div>
             </div>
-
 
             <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}
                 overlayClassName="fixed top-0 left-0 w-full h-full bg-black/60 flex justify-center items-center"

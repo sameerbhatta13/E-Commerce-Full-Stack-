@@ -15,7 +15,7 @@ const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken')
     const decode = token ? jwtDecode(token) : null;
 
     const darkMode = useSelector((data) => data.mode.darkMode);
@@ -37,12 +37,19 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="sticky top-0 bg-gray-900 shadow-md text-white p-4 z-20">
+            <nav className={`fixed w-full top-0 p-4 bg-white z-50 dark:bg-black ${darkMode ? 'text-white' : ''}`}>
+
+                {isOpen && (
+                    <div className='fixed inset-0 bg-black bg-opacity-50 md:hidden' onClick={() => setIsOpen(false)}>
+
+                    </div>
+                )
+                }
                 {/* Large Screen Navbar */}
-                <div className="container mx-auto flex justify-between items-center">
+                <div className="container mx-auto flex justify-between items-center text-xl font-sans">
                     {/* Logo */}
-                    <Link to="/" className="text-2xl font-bold text-indigo-400">
-                        Ecommerce
+                    <Link to="/" className="text-3xl font-bold">
+                        E-Business
                     </Link>
 
                     {/* Menu Button (Only visible on small screens) */}

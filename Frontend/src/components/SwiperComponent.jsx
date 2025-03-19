@@ -20,7 +20,7 @@ const SwiperComponent = () => {
     };
     return (
         <>
-            <div className="swiper-container dark:bg-black bg-red-500">
+            <div className="swiper-container dark:bg-black bg-red-500 ">
                 <Swiper
                     modules={[Navigation, Pagination, EffectCoverflow]}
                     effect="coverflow"
