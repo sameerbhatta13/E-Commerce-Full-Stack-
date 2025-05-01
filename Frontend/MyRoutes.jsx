@@ -58,7 +58,6 @@ const MyRoutes = () => {
                     </Route>
 
                     <Route path='/userdashboard' element={<Protected Cmp={UserDashboar} />} >
-
                         <Route path='dashboardlayout' element={<DashboardLayout />} />
                         <Route path='profile' element={<Profile />} />
                         <Route path='product' element={<ProductList />} />

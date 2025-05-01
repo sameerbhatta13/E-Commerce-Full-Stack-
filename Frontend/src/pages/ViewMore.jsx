@@ -63,8 +63,6 @@ const ViewMore = () => {
     const isInCart = cartItems?.[0]?.products?.some((item) => item.productId?._id === id)
 
 
-
-
     useEffect(() => {
         window.scrollTo({
             top: 0,

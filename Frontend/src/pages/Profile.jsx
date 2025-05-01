@@ -37,7 +37,6 @@ const Profile = () => {
         window.location.reload()
     }
 
-
     const handleChanger = (e) => {
         setSelect(e.target.files[0])
     }
