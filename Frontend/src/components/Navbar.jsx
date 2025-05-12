@@ -35,6 +35,7 @@ const Navbar = () => {
         localStorage.setItem('darkMode', darkMode);
     }, [darkMode]);
 
+
     return (
         <>
             <nav className={`fixed w-full top-0 p-4 bg-white z-50 dark:bg-black ${darkMode ? 'text-white' : ''}`}>
