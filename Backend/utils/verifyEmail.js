@@ -22,7 +22,6 @@ const sendEmail = async (options) => {
 }
 
 
-
 //send mail for forget password
 
 const sendEmailFB = async (options) => {
